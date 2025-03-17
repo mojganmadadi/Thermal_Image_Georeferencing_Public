@@ -1,0 +1,85 @@
+# This supresses the output folder
+# that otherwise is automaticly generated
+# by hydra
+defaults:  
+  - _self_  
+  - override hydra/hydra_logging: disabled  
+  - override hydra/job_logging: disabled  
+hydra:  
+  output_subdir: null  
+  run:  
+    dir: .
+
+nEpochs: 1000
+batch_size: 64
+lr: 1e-3
+# channels: 1024
+num_regions: 5
+n_classes: 1
+train_or_test: "train"
+resume_training: False
+which_epoch_to_evaluate: 700
+which_index: "all" # It can be "all", "0:Tropical", "1:Cold", or "2:Temperate"
+where_to_save: "tests"
+seed: 96
+which_class: "crop" #it can be "grass", "water", "forest"
+
+dataset:
+  _target_: "dataloader.RegionizedDataset"
+  which_index : ${which_index}
+  which_class: ${which_class}
+  images_dir : "data/${train_or_test}/imgs"
+  mask_dir : "data/${train_or_test}/masks"
+  transform : "RandomCrop256"
+  csv_file : "data/${train_or_test}/df_${train_or_test}_withRregionIndex.csv"
+  train_or_test: ${train_or_test}
+
+
+dir_checkpoint : "Checkpoints/R${which_index}_${which_class}/lr_${lr}"
+
+model:
+  _target_: unet_model.UNet
+  n_channels: 1
+  n_classes: ${n_classes}
+
+
+loss:
+  _target_: torch.nn.BCEWithLogitsLoss
+  
+optimizer :
+  _target_: torch.optim.Adam
+  lr : ${lr}
+  # weight_decay: 1e-8
+  # momentum : 0.999
+  # foreach : True
+  
+
+scheduler : 
+ _target_ : torch.optim.lr_scheduler.CosineAnnealingLR 
+ eta_min : 1e-5
+
+trainroutine:
+  _target_ : "train_val.trainNoModification"
+  _partial_ : True
+  
+evaluate:
+  _target_ : "evaluate.evaluate_iou"
+  _partial_ : True 
+
+evaluate_vis:
+  _target_ : "evaluate.evaluate_vis"
+  _partial_ : True 
+
+test:
+  _target_ : "test.test"
+  _partial_ : True
+
+test_dataset:
+  _target_: "dataloader.RegionizedDataset_test"
+  _partial_: True
+  # which_index : ${which_index}
+  # which_class: "all"
+  images_dir : "data/test/imgs"
+  mask_dir : "data/test/masks"
+  transform : "RandomCrop256"
+  csv_file : "data/test/df_test_withRregionIndex.csv"
