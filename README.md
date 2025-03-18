@@ -2,43 +2,43 @@
 
 The repository contains the code for training and testing land cover classifiers namely cropland, water, tree cover, and grasslands and using them to geolocate test data.
 The dataset should be as follows:
-  +---data
-|   +---test
-|   |   |   csv file containint meta info of test set
++---data  
+|   +---test  
+|   |   |   CSV file containing meta info of the test set  
 |   |   |   
-|   |   +---imgs
+|   |   +---imgs  
 |   |   |       
-|   |   \---masks
+|   |   \---masks  
 |   |           
-|   \---train
-|       |   csv file containint meta info of test set
+|   \---train  
+|       |   CSV file containing meta info of the train set  
 |       |   
-|       +---imgs
+|       +---imgs  
 |       |       
-|       \---masks
+|       \---masks  
 |               
-\---Thermal_Image_Georeferencing_Public
-    |   Dockerfile
-    |   README.md
-    |   requirements.txt
+\---Thermal_Image_Georeferencing_Public  
+    |   Dockerfile  
+    |   README.md  
+    |   requirements.txt  
     |   
-    \---src
-        |   dataloader.py
-        |   evaluate.py
-        |   Georeference.ipynb
-        |   main.py
-        |   test.py
-        |   train_val.py
-        |   unet_model.py
-        |   utils.py
+    \---src  
+        |   dataloader.py  
+        |   evaluate.py  
+        |   Georeference.ipynb  
+        |   main.py  
+        |   test.py  
+        |   train_val.py  
+        |   unet_model.py  
+        |   utils.py  
         |   
-        +---Checkpoints
-        |   \---Rall_classofInterest
+        +---Checkpoints  
+        |   \---Rall_classOfInterest  
         |               
-        +---configs
-        |       config.yaml
+        +---configs  
+        |       config.yaml  
         |       
-        \---wandb
-        |
+        \---wandb  
+
                 
 To reproduce the result without running into docker problems, you can use the docker file to create the same image and use the container to run the code. 
