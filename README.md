@@ -1,9 +1,5 @@
 # Thermal_Image_Georeferencing
 
----
-🛠 Maintained by [Mojgan Madadikhaljan](https://github.com/mojganmadadi). Reach out via [GitHub Issues]([https://github.com/Thermal_Image_Georeferencing_Public/issues](https://github.com/mojganmadadi/Thermal_Image_Georeferencing_Public/issues) or email **mojganmdd@gmail.com**.  
-
-
 The repository contains the code for training and testing land cover classifiers namely cropland, water, tree cover, and grasslands and using them to geolocate test data.
 The data folder containing train and test images as well their corresponding masks and metadata should be as follows:
 
@@ -38,6 +34,9 @@ Thermal_Image_Georeferencing_Public/
 To reproduce the result without running into package problems, you can use the docker file to create the same image and use the container to run the code. 
 
 Also, the repo uses [Weights and Biases](https://wandb.ai/site/) to monitor the model performance and evaluation metrics.
+
+---
+🛠 Maintained by [Mojgan Madadikhaljan](https://github.com/mojganmadadi). Reach out via [GitHub Issues]([https://github.com/Thermal_Image_Georeferencing_Public/issues](https://github.com/mojganmadadi/Thermal_Image_Georeferencing_Public/issues) or email **mojganmdd@gmail.com**.  
 
 The repo follows [Hydra](https://hydra.cc/docs/intro/) template for improved scalability of the project.
 
