@@ -52,6 +52,7 @@ class TrainModel:
         # train_set = dataset
 
         self.n_val = int(len(dataset) * self.val_percent)
+        print(len(dataset))
         self.n_train = len(dataset) - self.n_val
         # self.n_test = len(testset)
         train_set, val_set = random_split(dataset, [self.n_train, self.n_val], generator=torch.Generator().manual_seed(0))
@@ -60,23 +61,13 @@ class TrainModel:
         self.train_loader = DataLoader(train_set,
                                  shuffle=True,
                                  batch_size=self.batch_size,
-                                 num_workers=32,
-                                 pin_memory=True,
-                                 sampler=None)
+                                 num_workers=8,
+                                 pin_memory=True,)
         self.val_loader = DataLoader(val_set,
                                  shuffle=True,
                                  batch_size=self.batch_size,
-                                 num_workers=32,
-                                 pin_memory=True,
-                                 sampler=None)
-        
-        # if self.predict_at_the_end:
-        #     self.test_loader = DataLoader(testset,
-        #                             shuffle=False,
-        #                             drop_last=False,
-        #                             batch_size=test_batchsize,
-        #                             num_workers=32,
-        #                             pin_memory=True)
+                                 num_workers=8,
+                                 pin_memory=True,)
 
         self.model = hydra.utils.instantiate(config.model).to(device=self.device)
 
@@ -92,10 +83,8 @@ class TrainModel:
            config.optimizer,
            params=self.model.parameters())
 
-        self.scheduler = hydra.utils.instantiate(config.scheduler, optimizer=self.optimizer)
+        # self.scheduler = hydra.utils.instantiate(config.scheduler, optimizer=self.optimizer)
         self.evaluate = hydra.utils.instantiate(config.evaluate)
-        # self.predict = hydra.utils.instantiate(config.predict_on_test)
-        # self.evaluate_vis = hydra.utils.instantiate(config.evaluate_vis)
 
         # (Initialize logging)
         self.grad_scaler = torch.cuda.amp.GradScaler(enabled=self.amp)
@@ -127,8 +116,6 @@ class TrainModel:
                     images = images.to(device=self.device, dtype=torch.float32, memory_format=torch.channels_last)
                     true_masks = true_masks.to(device=self.device, dtype=torch.long)
                     region_index = region_index.to(device=self.device, dtype=torch.long)
-                    # region_index_layers = torch.matmul(torch.ones((images.shape)), region_index).to(device=self.device, dtype=torch.long)
-                    # input_images = torch.add(images, region_index_layers) 
                     with torch.autocast(self.device.type if self.device.type != 'mps' else 'cpu', enabled=self.amp):
                         self.model = self.model.to(device=self.device)
                         masks_pred = self.model(images, region_index)
@@ -184,7 +171,7 @@ class TrainModel:
             # if (self.predict_at_the_end) & (epoch==self.nEpochs):
 
 
-            if (self.save_checkpoint) & (epoch % 50 == 0):
+            if (self.save_checkpoint) & (epoch % 4 == 0):
                 Path(self.dir_checkpoint).mkdir(parents=True, exist_ok=True)
                 # state_dict = self.model.state_dict()
                 to_save = {'epoch':epoch,
@@ -227,7 +214,7 @@ class trainNoModification(TrainModel):
                     # self.grad_scaler.step(self.optimizer)
                     self.optimizer.step()
                     # self.grad_scaler.update()
-                    self.scheduler.step()
+                    # self.scheduler.step()
                     pbar.update(images.shape[0])
                     self.global_step += 1
                     self.epoch_loss += self.loss.item()
@@ -260,7 +247,7 @@ class trainNoModification(TrainModel):
                 })
             
 
-            if (self.save_checkpoint) & (epoch % 50 == 0):
+            if (self.save_checkpoint) & (epoch % 5 == 0):
                 Path(self.dir_checkpoint).mkdir(parents=True, exist_ok=True)
                 # state_dict = self.model.state_dict()
                 to_save = {'epoch':epoch,
