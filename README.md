@@ -32,5 +32,9 @@ Thermal_Image_Georeferencing_Public/
 
                 
 To reproduce the result without running into package problems, you can use the docker file to create the same image and use the container to run the code. 
+
 Also, the repo uses [Weights and Biases](https://wandb.ai/site/) to monitor the model performance and evaluation metrics.
+
 The repo follows [Hydra](https://hydra.cc/docs/intro/) template for improved scalability of the project.
+
+For training, the config file can be modified to `train_or_test: "train"` and the training can be run by `python main.py`.
