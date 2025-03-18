@@ -31,4 +31,5 @@ Thermal_Image_Georeferencing_Public/
 ```
 
                 
-To reproduce the result without running into docker problems, you can use the docker file to create the same image and use the container to run the code. 
+To reproduce the result without running into package problems, you can use the docker file to create the same image and use the container to run the code. 
+Also, the repo uses [Weights and Biases](https://wandb.ai/site/) to monitor the model performance and evaluation metrices. 
