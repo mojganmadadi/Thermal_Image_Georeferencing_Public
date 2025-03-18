@@ -35,9 +35,9 @@ To reproduce the result without running into package problems, you can use the d
 
 Also, the repo uses [Weights and Biases](https://wandb.ai/site/) to monitor the model performance and evaluation metrics.
 
----
-🛠 Maintained by [Mojgan Madadikhaljan](https://github.com/mojganmadadi). Reach out via [GitHub Issues]([https://github.com/Thermal_Image_Georeferencing_Public/issues](https://github.com/mojganmadadi/Thermal_Image_Georeferencing_Public/issues) or email **mojganmdd@gmail.com**.  
-
 The repo follows [Hydra](https://hydra.cc/docs/intro/) template for improved scalability of the project.
 
 For training, the config file can be modified to `train_or_test: "train"` and the training can be run by `python main.py`.
+
+---
+🛠 Maintained by [Mojgan Madadikhaljan](https://github.com/mojganmadadi). Reach out via [GitHub Issues]([https://github.com/Thermal_Image_Georeferencing_Public/issues](https://github.com/mojganmadadi/Thermal_Image_Georeferencing_Public/issues) or email **mojganmdd@gmail.com**.  
