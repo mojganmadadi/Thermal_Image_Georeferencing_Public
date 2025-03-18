@@ -10,28 +10,28 @@ hydra:
   run:  
     dir: .
 
-nEpochs: 1000
-batch_size: 64
+nEpochs: 6 # The counting starts from 0
+batch_size: 8
 lr: 1e-3
 # channels: 1024
 num_regions: 5
 n_classes: 1
-train_or_test: "train"
+train_or_test: "test"
 resume_training: False
-which_epoch_to_evaluate: 700
+which_epoch_to_evaluate: 5
 which_index: "all" # It can be "all", "0:Tropical", "1:Cold", or "2:Temperate"
 where_to_save: "tests"
 seed: 96
-which_class: "crop" #it can be "grass", "water", "forest"
+which_class: "water" #it can be "grass", "water", "forest"
 
 dataset:
   _target_: "dataloader.RegionizedDataset"
   which_index : ${which_index}
   which_class: ${which_class}
-  images_dir : "data/${train_or_test}/imgs"
-  mask_dir : "data/${train_or_test}/masks"
+  images_dir : "/data/${train_or_test}/imgs"
+  mask_dir : "/data/${train_or_test}/masks"
   transform : "RandomCrop256"
-  csv_file : "data/${train_or_test}/df_${train_or_test}_withRregionIndex.csv"
+  csv_file : "/data/${train_or_test}/df_${train_or_test}_withRregionIndex.csv"
   train_or_test: ${train_or_test}
 
 
@@ -54,9 +54,10 @@ optimizer :
   # foreach : True
   
 
-scheduler : 
- _target_ : torch.optim.lr_scheduler.CosineAnnealingLR 
- eta_min : 1e-5
+# scheduler : 
+#  _target_ : torch.optim.lr_scheduler.CosineAnnealingLR 
+#  eta_min : 1e-5
+# T_max: # TODO: Missing, should be added if you want to use this scheduler
 
 trainroutine:
   _target_ : "train_val.trainNoModification"
@@ -75,11 +76,11 @@ test:
   _partial_ : True
 
 test_dataset:
-  _target_: "dataloader.RegionizedDataset_test"
-  _partial_: True
-  # which_index : ${which_index}
-  # which_class: "all"
-  images_dir : "data/test/imgs"
-  mask_dir : "data/test/masks"
+  _target_: "dataloader.RegionizedDataset"
+  # _partial_: True
+  which_index : ${which_index}
+  which_class: "all"
+  images_dir : "/data/test/imgs"
+  mask_dir : "/data/test/masks"
   transform : "RandomCrop256"
-  csv_file : "data/test/df_test_withRregionIndex.csv"
+  csv_file : "/data/test/df_test_withRregionIndex.csv"
