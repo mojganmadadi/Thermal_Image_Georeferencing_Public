@@ -6,24 +6,15 @@ The dataset should be as follows:
 ```
 +---data  
 |   +---test  
-|   |   |   CSV file containing meta info of the test set  
-|   |   |   
 |   |   +---imgs  
-|   |   |       
 |   |   \---masks  
-|   |           
 |   \---train  
-|       |   CSV file containing meta info of the train set  
-|       |   
 |       +---imgs  
-|       |       
 |       \---masks  
-|               
 \---Thermal_Image_Georeferencing_Public  
     |   Dockerfile  
     |   README.md  
     |   requirements.txt  
-    |   
     \---src  
         |   dataloader.py  
         |   evaluate.py  
@@ -33,13 +24,9 @@ The dataset should be as follows:
         |   train_val.py  
         |   unet_model.py  
         |   utils.py  
-        |   
         +---Checkpoints  
-        |   \---Rall_classOfInterest  
-        |               
         +---configs  
         |       config.yaml  
-        |       
         \---wandb  
 ```
                 
